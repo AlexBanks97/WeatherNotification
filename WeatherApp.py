@@ -1,5 +1,39 @@
-import urllib.request, json 
+import requests
+import argparse
+import json
+from lxml import html
+from bs4 import BeautifulSoup
 
-with urllib.request.urlopen("http://vejr.eu/api.php?location=Kastrup&degree=C") as url:
-    data = json.loads(url.read().decode())
-    print(data)
+
+parser = argparse.ArgumentParser()
+parser.add_argument("location")
+args = parser.parse_args()
+
+location = args.location
+
+if(location == None):
+    raise ValueError("No Arguments parsed")
+
+url = "http://vejr.eu/api.php?location=" + location + "&degree=C"
+
+# Set up Mozilla User Agent to avoid Security Incident
+uAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+header = {}
+header["User-Agent"] = uAgent
+
+page = requests.get(url, headers=header) # Set headers to header (mozilla)
+soup = BeautifulSoup(page.content, "html.parser")
+
+jsonString = soup.find_all("pre")[0].getText() # Take the first element and get the text.
+
+data = json.loads(jsonString) # Parse html to json
+
+temperature = data["CurrentData"]["temperature"]
+skyText = data["CurrentData"]["skyText"]
+
+from datetime import datetime
+print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+print("Location:", data["LocationName"])
+print("Temperature:", temperature, "C")
+print("Status:", skyText)
+
