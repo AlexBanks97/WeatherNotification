@@ -23,7 +23,7 @@ with open("mailinglist.txt", "r", encoding="utf8") as f:
 
         # Build the email
         outer = MIMEMultipart()
-        outer["Subject"] = "Python Weathercast"
+        outer["Subject"] = "Weather of the day"
         outer["To"] = COMMASPACE.join(recipients)
         outer["From"] = sender
         outer.attach(MIMEText(message, "plain"))
@@ -40,7 +40,7 @@ with open("mailinglist.txt", "r", encoding="utf8") as f:
                 s.login(sender, sender_pw)
                 s.sendmail(sender, recipients, composed)
                 s.close()
-            print("Email sent!")
+            print("Email sent to", mailAndLocation[0] )
         except:
             print("Unable to send the email. Error: ", sys.exc_info()[0])
             raise
