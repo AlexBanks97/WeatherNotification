@@ -4,36 +4,27 @@ import json
 from lxml import html
 from bs4 import BeautifulSoup
 
+def GetWeather(location):
+    if(location == None):
+        raise ValueError("No Arguments parsed")
 
-parser = argparse.ArgumentParser()
-parser.add_argument("location")
-args = parser.parse_args()
+    url = "http://vejr.eu/api.php?location=" + location + "&degree=C"
 
-location = args.location
+    # Set up Mozilla User Agent to avoid Security Incident
+    uAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+    header = {}
+    header["User-Agent"] = uAgent
 
-if(location == None):
-    raise ValueError("No Arguments parsed")
+    page = requests.get(url, headers=header) # Set headers to header (mozilla)
+    soup = BeautifulSoup(page.content, "html.parser")
 
-url = "http://vejr.eu/api.php?location=" + location + "&degree=C"
+    jsonString = soup.find_all("pre")[0].getText() # Take the first element and get the text.
 
-# Set up Mozilla User Agent to avoid Security Incident
-uAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
-header = {}
-header["User-Agent"] = uAgent
+    data = json.loads(jsonString) # Parse html to json
 
-page = requests.get(url, headers=header) # Set headers to header (mozilla)
-soup = BeautifulSoup(page.content, "html.parser")
+    temperature = data["CurrentData"]["temperature"]
+    skyText = data["CurrentData"]["skyText"]
+    place = data["LocationName"]
 
-jsonString = soup.find_all("pre")[0].getText() # Take the first element and get the text.
-
-data = json.loads(jsonString) # Parse html to json
-
-temperature = data["CurrentData"]["temperature"]
-skyText = data["CurrentData"]["skyText"]
-
-from datetime import datetime
-print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-print("Location:", data["LocationName"])
-print("Temperature:", temperature, "C")
-print("Status:", skyText)
-
+    from datetime import datetime
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\nLocation: " + place + "\nTemperature: " + temperature + "\nStatus: " + skyText
