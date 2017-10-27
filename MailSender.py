@@ -10,11 +10,11 @@ import WeatherApp
 COMMASPACE = ", "
 
 sender = "alexbanksrpi@gmail.com"
-sender_pw = open("./gmpw.txt",  "r", encoding="utf8").readline()
+sender_pw = open("~/WeatherNotification/gmpw.txt",  "r", encoding="utf8").readline()
 
 
 # Read recipients:
-with open("./mailinglist.txt", "r", encoding="utf8") as f:
+with open("~/WeatherNotification/mailinglist.txt", "r", encoding="utf8") as f:
     next(f)
     for line in f:
         recipients = []
