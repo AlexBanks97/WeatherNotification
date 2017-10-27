@@ -2,21 +2,28 @@ import os
 import os.path
 import sys
 import smtplib
+import argparse
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import WeatherApp
 
-COMMASPACE = ", "
+# Parse arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("mailinglist")
+parser.add_argument("mail_password")
+args = parser.parse_args()
 
+COMMASPACE = ", "
+mail_list_path = args.mailinglist
 sender = "alexbanksrpi@gmail.com"
-sender_pw = ""
+sender_pw = args.mail_password
 with open("gmpw.txt", "r", encoding="utf8") as f:
     sender_pw = f.readline()
 
 # Read recipients:
-with open("mailinglist.txt", "r", encoding="utf8") as f:
+with open(mail_list_path, "r", encoding="utf8") as f:
     next(f)
     for line in f:
         recipients = []
