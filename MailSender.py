@@ -11,12 +11,13 @@ COMMASPACE = ", "
 
 sender = "alexbanksrpi@gmail.com"
 sender_pw = open("./gmpw.txt",  "r", encoding="utf8").readline()
-recipients = []
+
 
 # Read recipients:
 with open("./mailinglist.txt", "r", encoding="utf8") as f:
     next(f)
     for line in f:
+        recipients = []
         mailAndLocation = line.split(",")
         message = WeatherApp.GetWeather(mailAndLocation[1].strip())
         recipients.append(mailAndLocation[0].strip())
