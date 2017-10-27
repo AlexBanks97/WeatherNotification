@@ -19,8 +19,6 @@ COMMASPACE = ", "
 mail_list_path = args.mailinglist
 sender = "alexbanksrpi@gmail.com"
 sender_pw = args.mail_password
-with open("gmpw.txt", "r", encoding="utf8") as f:
-    sender_pw = f.readline()
 
 # Read recipients:
 with open(mail_list_path, "r", encoding="utf8") as f:
