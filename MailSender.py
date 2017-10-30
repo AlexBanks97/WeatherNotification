@@ -20,6 +20,8 @@ mail_list_path = args.mailinglist
 sender = "alexbanksrpi@gmail.com"
 sender_pw = args.mail_password
 
+os.chdir(mail_list_path)
+
 # Read recipients:
 with open(mail_list_path, "r", encoding="utf8") as f:
     next(f)
