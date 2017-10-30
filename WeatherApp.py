@@ -27,4 +27,4 @@ def GetWeather(location):
     place = data["LocationName"]
 
     from datetime import datetime
-    return datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\nLocation: " + place + "\nTemperature: " + temperature + "\nStatus: " + skyText
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "\nLocation: " + place + "\nTemperature: " + temperature + "C\nStatus: " + skyText
