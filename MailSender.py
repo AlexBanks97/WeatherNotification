@@ -22,7 +22,7 @@ sender_pw = args.mail_password
 
 for recipient in MailListWrapper.GetMailList():
     recipients = []
-    message = WeatherApp.GetWeather(mailAndLocation[1].strip())
+    message = WeatherApp.GetWeather(recipient[1].strip())
     recipients.append(recipient[0].strip())
 
     # Build the email
