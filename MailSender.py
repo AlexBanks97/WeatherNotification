@@ -8,10 +8,10 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import WeatherApp
+import MailListWrapper
 
 # Parse arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("mailinglist")
 parser.add_argument("mail_password")
 args = parser.parse_args()
 
@@ -20,7 +20,8 @@ mail_list_path = args.mailinglist
 sender = "alexbanksrpi@gmail.com"
 sender_pw = args.mail_password
 
-os.chdir(mail_list_path)
+for recipient in MailListWrapper.GetMailList():
+    print("Hello World")
 
 # Read recipients:
 with open(mail_list_path, "r", encoding="utf8") as f:
